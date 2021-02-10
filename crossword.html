@@ -1,0 +1,27 @@
+<html>
+
+<head>
+  <script src="https://ohyay.co/js/api.js"></script>
+</head>
+
+<body style="background-color: white">
+  <script>
+    ohyay.registerMessageHandler(async s => {
+      const roomId = await ohyay.getCurrentRoomId()
+      const elements = await ohyay.getRoomElements(roomId, 'crossword_letter');
+      let correct = true;
+      elements.forEach(e => {
+        correct = correct && e.title === e.text;
+      });
+      
+      const congrats = await ohyay.getRoomElements(roomId, 'crossword_congrats');
+      ohyay.updateElement(congrats.id, {
+        visible: correct
+      })
+    });
+
+    document.body.append(new Date().toLocaleTimeString());
+  </script>
+</body>
+
+</html>
